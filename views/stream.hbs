@@ -1,0 +1,206 @@
+{{!< ../views/partials/layout.hbs}}
+    <style>
+
+      div#video_player_box{ width:75%; height:450px; margin:35px auto; background:#000}
+      video#my_video{
+        width:100%;
+        height: 100%
+      }
+      div#video_controls_bar{ background: #333; padding:10px; color:#CCC; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
+      button#playpausebtn{
+        background:url(pause.png);
+        border:none;
+        width:16px;
+        height:18px;
+        cursor:pointer;
+        opacity:0.5;
+      }
+      button#playpausebtn:hover{ opacity:1; }
+      input#seekslider{ width:180px; }
+      input#volumeslider{ width: 80px;}
+      input[type='range'] {
+          -webkit-appearance: none !important;
+          background: #000;
+        border:#666 1px solid;
+          height:5px;
+      }
+      input[type='range']::-webkit-slider-thumb {
+          -webkit-appearance: none !important;
+          background: #FFF;
+          height:15px;
+          width:15px;
+        border-radius:100%;
+        cursor:pointer;
+      }
+      #background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-size: cover;
+        color: rgb(13, 10, 212);
+      }
+      #videoPlayer{
+          position: absolute;
+          min-width: 50%;
+          min-height: 50%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%); 
+          max-width: 75%;
+          max-height: 75%;
+          border: 1rem       
+      }
+    </style>
+    <!--<h1>{{klak}}</h1>-->
+    <!--<video id="videoPlayer" controls autoplay> 
+      <source src={{src}} type="video/mp4">
+    </video>-->
+    <div id="video_player_box">
+      <video id="my_video" controls autoplay controlsList="nodownload">
+        <source src={{src}} type="video/mp4">
+      </video>
+      <!--<center>
+      <div id="video_controls_bar">
+        <button id="playpausebtn"></button>
+        <input id="seekslider" type="range" min="0" max="100" value="0" step="1">
+        <span id="curtimetext">00:00</span> / <span id="durtimetext">00:00</span>
+        <button id="mutebtn">Mute</button>
+        <input id="volumeslider" type="range" min="0" max="100" value="100" step="1">
+        <button id="mediamscreenbtn">[&nbsp;]</button>
+        <button id="fullscreenbtn">[ &nbsp; ]</button>
+      </div>
+      </center>-->
+    </div>
+    <div id="slides">
+      <p>{{showslist}}</p>
+    </div>
+
+    <script>
+      /*const http = new XMLHttpRequest();
+      const url = 'http://localhost:3000/watchingvideo'
+      var x = false;
+      function check(){
+        if(document.hasFocus()){
+          if(x != true){
+            http.open("Get", url)
+            http.send()
+            x = true
+          }
+          else{
+            x = false
+          }
+        }
+        else{
+          if(x != true){
+            http.open("Get", url)
+            http.send()
+            x = true
+          }
+          else{
+            x = true
+          }
+        }
+      }*/
+      var div = document.getElementById('slides')
+      var but = document.getElementById('but')
+      var list = document.getElementById('list')
+      //x = {{showslist}}
+      /*but.addEventListener('click', function(){
+        elements = '<h1>'+ list +'</h1>'
+        //elements = '<div class="row" id=' + x + '><input type="file" name="avatar"/><input type="text" placeholder="Episode Name" name=' + elementsName +'></div>'
+        div.insertAdjacentHTML('afterbegin', elements)
+      })*/
+      //console.log({{showslist}}.toString())
+      //x++
+      
+      const http = new XMLHttpRequest();
+      var urlParams = new URLSearchParams(window.location.search);
+
+      //var url = 'http://localhost:3000/api/slides/' + urlParams.has('show') + '/' + urlParams.has('ss')
+      //var url = 'http://127.0.0.1:3000/api/slides/5d81458a0815bd0e1c789652/0'
+      //http.open("Get", url)
+      //http.send()
+      //http.onload = () => console.log(http.responseText)
+      //console.log(http.responseText)
+      /*console.log(urlParams.has('id')); // true
+      console.log(urlParams.get('id')); // "edit"
+      console.log(urlParams.getAll('action')); // ["edit"]
+      console.log(urlParams.toString()); // "?post=1234&action=edit"
+      console.log(urlParams.append('active', '1')); // "?post=1234&action=edit&active=1"*/
+    </script>
+    <!--<script>
+    var vid, playbtn, seekslider, curtimetext, durtimetext, mutebtn, volumeslider, fullscreenbtn;
+    function intializePlayer(){
+      // Set object references
+      vid = document.getElementById("my_video");
+      playbtn = document.getElementById("playpausebtn");
+      seekslider = document.getElementById("seekslider");
+      curtimetext = document.getElementById("curtimetext");
+      durtimetext = document.getElementById("durtimetext");
+      mutebtn = document.getElementById("mutebtn");
+      volumeslider = document.getElementById("volumeslider");
+      fullscreenbtn = document.getElementById("fullscreenbtn");
+      videoControl = document.getElementById("video_controls_bar")
+      // Add event listeners
+      playbtn.addEventListener("click",playPause,false);
+      seekslider.addEventListener("change",vidSeek,false);
+      vid.addEventListener("timeupdate",seektimeupdate,false);
+      mutebtn.addEventListener("click",vidmute,false);
+      volumeslider.addEventListener("change",setvolume,false);
+      fullscreenbtn.addEventListener("click",toggleFullScreen,false);
+    }
+    window.onload = intializePlayer;
+    function playPause(){
+      if(vid.paused){
+        vid.play();
+        playbtn.style.background = "url(pause.png)";
+      } else {
+        vid.pause();
+        playbtn.style.background = "url(play.png)";
+      }
+    }
+    function vidSeek(){
+      var seekto = vid.duration * (seekslider.value / 100);
+      vid.currentTime = seekto;
+    }
+    function seektimeupdate(){
+      var nt = vid.currentTime * (100 / vid.duration);
+      seekslider.value = nt;
+      var curmins = Math.floor(vid.currentTime / 60);
+      var cursecs = Math.floor(vid.currentTime - curmins * 60);
+      var durmins = Math.floor(vid.duration / 60);
+      var dursecs = Math.floor(vid.duration - durmins * 60);
+      if(cursecs < 10){ cursecs = "0"+cursecs; }
+      if(dursecs < 10){ dursecs = "0"+dursecs; }
+      if(curmins < 10){ curmins = "0"+curmins; }
+      if(durmins < 10){ durmins = "0"+durmins; }
+      curtimetext.innerHTML = curmins+":"+cursecs;
+      durtimetext.innerHTML = durmins+":"+dursecs;
+    }
+    function vidmute(){
+      if(vid.muted){
+        vid.muted = false;
+        mutebtn.innerHTML = "Mute";
+      } else {
+        vid.muted = true;
+        mutebtn.innerHTML = "Unmute";
+      }
+    }
+    function setvolume(){
+      vid.volume = volumeslider.value / 100;
+    }
+    function toggleFullScreen(){
+      if(vid.requestFullScreen){
+        vid.requestFullScreen();
+        videoControl.maxWidth = '100%';
+      } else if(vid.webkitRequestFullScreen){
+        vid.webkitRequestFullScreen();
+        videoControl.maxWidth = '100%';
+      } else if(vid.mozRequestFullScreen){
+        vid.mozRequestFullScreen();
+        videoControl.maxWidth = '100%';
+      }
+    }
+    </script>-->

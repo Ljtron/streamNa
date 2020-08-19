@@ -1,0 +1,85 @@
+{{!< ../views/partials/layout.hbs}}
+
+{{#if err}}
+    {{err}}
+{{/if}}
+{{#if show}}
+    <div class="row">
+        <div class="col align-self-end">
+            <a href="/create/show" class="btn btn-primary">Add show</a>
+            <br>
+        </div>
+    </div>
+
+    {{# each show }}
+    <div class="row">
+        {{# each this }}
+            <div class="col-sm-3 col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.name}}</h5>
+                        <p class="card-text">Some quick example text to build on the {{this.name}} and make up the bulk of the card's content.</p>
+                        <a href={{this.url}} class="btn btn-primary">Go somewhere</a>
+                        <a href="#" class="btn btn-primary">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+    {{/each}}
+{{/if}}
+
+{{#if video}}
+    <div class="row">
+        <div class="col align-self-end">
+            <a href="#" class="btn btn-primary">Add video</a>
+            <br>
+        </div>
+    </div>
+
+    {{# each video }}
+    <div class="row">
+        {{# each this }}
+            <div class="col-sm-3 col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.episodeName}}</h5>
+                        <p class="card-text">Some quick example text to build on the {{this.episodeName}} and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <a href="#" class="btn btn-primary">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+    {{/each}}
+{{/if}}
+
+{{#if season}}
+    <div class="row">
+        <div class="col align-self-end">
+            <a href={{seasonLink}} class="btn btn-primary">Add season</a>
+            <br>
+        </div>
+    </div>
+
+    {{# each season }}
+    <div class="row">
+        {{# each this }}
+            <div class="col-sm-3 col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.name}}</h5>
+                        <p class="card-text">Some quick example text to build on the {{this.name}} and make up the bulk of the card's content.</p>
+                        <a href={{this.url}} class="btn btn-primary">Go somewhere</a>
+                        <a href="#" class="btn btn-primary">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+    {{/each}}
+{{/if}}

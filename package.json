@@ -1,0 +1,24 @@
+{
+  "name": "video_streamer",
+  "version": "1.0.0",
+  "description": "This is an app that allows users to stream videos",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Lincoln A. Mcloud Jr.",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-hbs": "^2.1.2",
+    "express-session": "^1.16.2",
+    "gridfs-stream": "^1.1.1",
+    "mongoose": "^5.6.9",
+    "multer": "^1.4.2",
+    "multer-gridfs-storage": "^3.3.0",
+    "node-media-server": "^2.1.2",
+    "nodemon": "^1.19.1"
+  }
+}
